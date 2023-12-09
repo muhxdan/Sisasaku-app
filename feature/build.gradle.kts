@@ -34,10 +34,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.bundles.shared.dependencies)
+    implementation(libs.androidx.hilt.navigation.compose)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.appcompat)
-    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.espresso.core)
