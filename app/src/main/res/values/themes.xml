@@ -2,4 +2,10 @@
 <resources>
 
     <style name="Theme.Sisasaku" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.Sisasaku.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#054DE9</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_app_white</item>
+        <item name="postSplashScreenTheme">@style/Theme.Sisasaku</item>
+    </style>
 </resources>
