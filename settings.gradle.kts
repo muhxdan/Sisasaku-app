@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Sisasaku"
 include(":app")
- 
+include(":core")
+include(":feature")
