@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home">Home</string>
+    <string name="wallet">Wallet</string>
+    <string name="analytics">Analytics</string>
+    <string name="profile">Profile</string>
+    <string name="login">Login</string>
+
+    //Login
+    <string name="welcome_title_login">Welcome to</string>
+    <string name="welcome_description_login">We help you keep track of your\nspending money quickly and easily.</string>
+    <string name="sign_in">Sign in with Google</string>
+</resources>
