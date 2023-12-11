@@ -1,6 +1,10 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.jetbrains.kotlin)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -12,6 +16,24 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        val localProperties = Properties()
+        localProperties.load(project.rootProject.file("local.properties").inputStream())
+        buildConfigField(
+            "String",
+            "SUPABASE_KEY",
+            "\"${localProperties.getProperty("supabaseKey")}\""
+        )
+        buildConfigField(
+            "String",
+            "SUPABASE_URL",
+            "\"${localProperties.getProperty("supabaseUrl")}\""
+        )
+        buildConfigField(
+            "String",
+            "GOOGLE_CLIENT_ID",
+            "\"${localProperties.getProperty("googleClientId")}\""
+        )
     }
 
     buildTypes {
@@ -32,14 +54,25 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.6"
     }
+
 }
 
 dependencies {
     implementation(libs.bundles.shared.dependencies)
+    implementation(libs.moshi)
+    implementation(libs.supabase.auth)
+    implementation(libs.supabase.auth.ui)
+    implementation(libs.supabase.gotrue)
+    implementation(libs.supabase.postgrest)
+    implementation(libs.supabase.realtime)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    kapt(libs.hilt.ext.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
