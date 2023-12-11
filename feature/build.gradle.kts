@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.jetbrains.kotlin)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -39,9 +41,19 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
+
     implementation(libs.bundles.shared.dependencies)
+    implementation(libs.bundles.ktor.dependencies)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.lottie)
+    implementation(libs.supabase.auth)
+    implementation(libs.supabase.auth.ui)
+    implementation(libs.supabase.gotrue)
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    kapt(libs.hilt.ext.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)

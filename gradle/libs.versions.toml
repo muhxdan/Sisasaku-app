@@ -6,6 +6,7 @@ jetbrainsKotlin = "1.9.21"
 #App Dependencies Versions
 activityCompose = "1.8.1"
 coreKtx = "1.12.0"
+ktorClientAndroid = "2.3.5"
 lifecycleRuntimeKtx = "2.6.2"
 compose = "1.5.4"
 composeNavigation = "2.7.5"
@@ -46,8 +47,11 @@ compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", versi
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktorClientAndroid" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktorClientAndroid" }
+ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktorClientAndroid" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-androidx-tracing-ktx = {group = "androidx.tracing", name="tracing-ktx", version.ref = "androidxTracing" }
+androidx-tracing-ktx = { group = "androidx.tracing", name = "tracing-ktx", version.ref = "androidxTracing" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose" }
 
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSplashscreen" }
@@ -80,3 +84,4 @@ org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org
 
 [bundles]
 shared-dependencies = ["androidx-core-ktx", "androidx-lifecycle-runtime-ktx", "androidx-activity-compose", "compose-ui", "compose-ui-graphics", "compose-ui-tooling-preview", "compose-material3", "material", "appcompat", "compose-ui-tooling"]
+ktor-dependencies = ["ktor-client-android", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json"]
