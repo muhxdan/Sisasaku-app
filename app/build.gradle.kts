@@ -52,8 +52,13 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
+    implementation(project(":feature"))
+
     implementation(libs.bundles.shared.dependencies)
     implementation(libs.accompanist.systemuicontroller)
+    implementation(libs.androidx.tracing.ktx)
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
