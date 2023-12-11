@@ -1,10 +1,10 @@
-package com.salt.apps.sisasaku.ui.navigation
+package com.salt.apps.sisasaku.ui.main.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.salt.apps.sisasaku.ui.SsApp
+import com.salt.apps.sisasaku.ui.main.SsApp
 
 const val mainNavigationRoute = "main_route"
 

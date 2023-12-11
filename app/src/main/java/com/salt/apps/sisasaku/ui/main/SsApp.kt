@@ -1,4 +1,4 @@
-package com.salt.apps.sisasaku.ui
+package com.salt.apps.sisasaku.ui.main
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -22,10 +22,11 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import com.salt.apps.core.designsystem.components.SsNavigationBar
 import com.salt.apps.core.designsystem.components.SsNavigationBarItem
 import com.salt.apps.sisasaku.ui.navigation.MainDestination
+import com.salt.apps.sisasaku.ui.navigation.SsMainNavHost
 
 @Composable
 fun SsApp(
-    appState: SsAppState = rememberSsAppState()
+    appState: SsAppState = rememberSsAppState(),
 ) {
     Scaffold(
         containerColor = Color.Transparent,
@@ -41,6 +42,7 @@ fun SsApp(
         Row(
             Modifier
                 .fillMaxSize()
+                .padding(padding)
                 .windowInsetsPadding(
                     WindowInsets.safeDrawing.only(
                         WindowInsetsSides.Horizontal
@@ -48,9 +50,7 @@ fun SsApp(
                 )
         ) {
             SsMainNavHost(
-                appState = appState,
-                modifier = Modifier
-                    .padding(padding)
+                appState = appState
             )
         }
     }

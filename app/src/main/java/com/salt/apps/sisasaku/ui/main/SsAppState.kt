@@ -1,4 +1,4 @@
-package com.salt.apps.sisasaku.ui
+package com.salt.apps.sisasaku.ui.main
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
