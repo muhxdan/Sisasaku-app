@@ -1,5 +1,6 @@
 package com.salt.apps.feature.login
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,14 +15,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,21 +30,29 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.salt.apps.core.data.State
 import com.salt.apps.feature.R
-import kotlinx.coroutines.delay
+import io.github.jan.supabase.compose.auth.composable.rememberLoginWithGoogle
+import io.github.jan.supabase.compose.auth.composeAuth
 
 @Composable
-fun LoginScreen(navigateToHome: () -> Unit, onDataLoaded: () -> Unit) {
-    var isLoading by remember { mutableStateOf(true) }
+fun LoginScreen(
+    navigateToHome: () -> Unit,
+    loginVm: LoginViewModel = hiltViewModel(),
+) {
+    val loginState by loginVm.loginState.collectAsState()
+    val client = loginVm.getSupabaseClient()
 
-    LaunchedEffect(key1 = Unit) {
-        delay(1000)
-        isLoading = false
-        onDataLoaded()
-    }
+    val action = client.composeAuth.rememberLoginWithGoogle(
+        onResult = { result ->
+            loginVm.signInWithGoogle(result)
+        },
+        fallback = {},
+    )
 
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.login_animation))
     Column(
@@ -88,23 +95,56 @@ fun LoginScreen(navigateToHome: () -> Unit, onDataLoaded: () -> Unit) {
         )
         Spacer(modifier = Modifier.weight(1f))
         SsButton(
-            modifier = Modifier.fillMaxWidth(),
-            onClick = navigateToHome,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            onClick = {
+                action.startFlow()
+            },
             contentPadding = PaddingValues(vertical = 13.dp),
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_google),
-                contentDescription = null
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                stringResource(id = R.string.sign_in),
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Medium,
-                ),
-            )
+
+            if (loginState is State.Loading) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .width(10.dp)
+                        .height(10.dp),
+                    color = Color.White,
+                )
+            } else {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_google),
+                    contentDescription = null
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    stringResource(id = R.string.sign_in),
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontWeight = FontWeight.Medium,
+                    ),
+                )
+            }
         }
     }
+
+    when (loginState) {
+        is State.Loading -> {
+            Log.i("LoginScreen", "Loading...")
+        }
+
+        is State.Success -> {
+            navigateToHome()
+            val successData = (loginState as State.Success).data
+        }
+
+        is State.Error -> {
+            val errorMessage = (loginState as State.Error).message
+            Log.i("LoginScreen", "errorMessage: $errorMessage")
+        }
+
+        else -> {}
+    }
+
 }
 
 @Composable
