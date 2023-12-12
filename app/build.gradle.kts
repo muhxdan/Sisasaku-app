@@ -56,6 +56,8 @@ dependencies {
     implementation(project(":feature"))
 
     implementation(libs.bundles.shared.dependencies)
+    implementation(libs.supabase.auth)
+    implementation(libs.supabase.gotrue)
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.androidx.tracing.ktx)
     implementation(libs.androidx.core.splashscreen)
