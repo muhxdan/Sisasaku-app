@@ -73,6 +73,9 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     kapt(libs.hilt.ext.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.sql.cipher)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
