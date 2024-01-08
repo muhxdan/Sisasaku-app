@@ -24,7 +24,6 @@ class AuthRepository @Inject constructor(
     ): Flow<State<UserResponse>> = flow {
         try {
             emit(State.Loading())
-            delay(1500)
             when (result) {
                 is NativeSignInResult.Success -> {
 
