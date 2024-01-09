@@ -50,7 +50,7 @@ class AuthRepository @Inject constructor(
 
                 is NativeSignInResult.Error -> {
                     val message = result.message
-                    emit(State.Error("Sign-in error: $message", null))
+                    emit(State.Error(message, null))
                 }
 
                 is NativeSignInResult.ClosedByUser -> {
@@ -59,9 +59,11 @@ class AuthRepository @Inject constructor(
 
                 is NativeSignInResult.NetworkError -> {
                     val message = result.message
-                    emit(State.Error("Network error: $message", null))
+                    emit(State.Error(message, null))
                 }
             }
+            delay(300)
+            emit(State.Empty)
         } catch (e: Exception) {
             emit(State.Error("Unexpected error: ${e.message}", null))
         }
