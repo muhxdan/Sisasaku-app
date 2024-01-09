@@ -11,6 +11,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.salt.apps.sisasaku.ui.navigation.SsNavHost
 import com.salt.apps.sisasaku.ui.theme.SisasakuTheme
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.jan.supabase.gotrue.SessionStatus
 import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
@@ -23,17 +24,26 @@ class MainActivity : ComponentActivity() {
         }
         super.onCreate(savedInstanceState)
         setContent {
-            val accessToken by mainViewModel.accessToken.collectAsState()
+            val sessionStatus by mainViewModel.sessionStatus.collectAsState()
 
-            LaunchedEffect(key1 = Unit) {
-                delay(1000)
+            LaunchedEffect(sessionStatus) {
+                delay(1500)
                 mainViewModel.splashScreenClosed.value = true
+                mainViewModel.splashScreenActive.value = false
             }
+
             SisasakuTheme {
-                if (accessToken != null) {
-                    SsApp()
-                } else {
-                    SsNavHost()
+                when (sessionStatus) {
+                    is SessionStatus.NotAuthenticated -> {
+                        SsNavHost()
+                    }
+
+                    is SessionStatus.Authenticated -> {
+                        SsApp()
+                    }
+
+                    is SessionStatus.NetworkError -> {}
+                    is SessionStatus.LoadingFromStorage -> {}
                 }
             }
         }
