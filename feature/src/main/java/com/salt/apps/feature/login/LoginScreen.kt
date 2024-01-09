@@ -1,6 +1,6 @@
 package com.salt.apps.feature.login
 
-import android.util.Log
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -19,12 +19,17 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,6 +41,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.salt.apps.core.data.State
 import com.salt.apps.feature.R
+import com.salt.apps.feature.components.showToast
 import io.github.jan.supabase.compose.auth.composable.rememberLoginWithGoogle
 import io.github.jan.supabase.compose.auth.composeAuth
 
@@ -43,9 +49,12 @@ import io.github.jan.supabase.compose.auth.composeAuth
 fun LoginScreen(
     navigateToHome: () -> Unit,
     loginVm: LoginViewModel = hiltViewModel(),
+    context: Context = LocalContext.current,
 ) {
     val loginState by loginVm.loginState.collectAsState()
     val client = loginVm.getSupabaseClient()
+    var isLoading by remember { mutableStateOf(false) }
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.login_animation))
 
     val action = client.composeAuth.rememberLoginWithGoogle(
         onResult = { result ->
@@ -53,8 +62,6 @@ fun LoginScreen(
         },
         fallback = {},
     )
-
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.login_animation))
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -99,16 +106,16 @@ fun LoginScreen(
                 .fillMaxWidth()
                 .height(50.dp),
             onClick = {
+                isLoading = true
                 action.startFlow()
             },
             contentPadding = PaddingValues(vertical = 13.dp),
         ) {
-
-            if (loginState is State.Loading) {
+            if (isLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier
-                        .width(10.dp)
-                        .height(10.dp),
+                        .width(20.dp)
+                        .height(20.dp),
                     color = Color.White,
                 )
             } else {
@@ -126,25 +133,21 @@ fun LoginScreen(
             }
         }
     }
+    LaunchedEffect(loginState) {
+        isLoading = false
+        when (loginState) {
+            is State.Success -> {
+                navigateToHome()
+            }
 
-    when (loginState) {
-        is State.Loading -> {
-            Log.i("LoginScreen", "Loading...")
+            is State.Error -> {
+                showToast(context, (loginState as State.Error).message)
+            }
+
+            is State.Empty -> {}
+            is State.Loading -> {}
         }
-
-        is State.Success -> {
-            navigateToHome()
-            val successData = (loginState as State.Success).data
-        }
-
-        is State.Error -> {
-            val errorMessage = (loginState as State.Error).message
-            Log.i("LoginScreen", "errorMessage: $errorMessage")
-        }
-
-        else -> {}
     }
-
 }
 
 @Composable
