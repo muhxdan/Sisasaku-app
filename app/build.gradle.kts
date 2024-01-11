@@ -59,7 +59,6 @@ dependencies {
     implementation(libs.supabase.auth)
     implementation(libs.supabase.gotrue)
     implementation(libs.accompanist.systemuicontroller)
-    implementation(libs.androidx.tracing.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
