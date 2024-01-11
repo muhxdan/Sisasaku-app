@@ -1,4 +1,4 @@
-package com.salt.apps.feature.components
+package com.salt.apps.core.designsystem.components
 
 import android.content.Context
 import android.widget.Toast
