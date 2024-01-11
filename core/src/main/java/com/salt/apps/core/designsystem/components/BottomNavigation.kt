@@ -13,13 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.salt.apps.core.designsystem.components.SsNavigationDefaults.navigationContainerColor
-import com.salt.apps.core.designsystem.components.SsNavigationDefaults.navigationContentColor
-import com.salt.apps.core.designsystem.components.SsNavigationDefaults.navigationIndicatorColor
-import com.salt.apps.core.designsystem.components.SsNavigationDefaults.navigationSelectedItemColor
+import com.salt.apps.core.designsystem.components.BottomNavigationDefaultsColor.navigationContainerColor
+import com.salt.apps.core.designsystem.components.BottomNavigationDefaultsColor.navigationContentColor
+import com.salt.apps.core.designsystem.components.BottomNavigationDefaultsColor.navigationIndicatorColor
+import com.salt.apps.core.designsystem.components.BottomNavigationDefaultsColor.navigationSelectedItemColor
 
 @Composable
-fun RowScope.SsNavigationBarItem(
+fun RowScope.BottomNavigationBarItem(
     selected: Boolean,
     onClick: () -> Unit,
     icon: @Composable () -> Unit,
@@ -61,7 +61,7 @@ fun RowScope.SsNavigationBarItem(
 }
 
 @Composable
-fun SsNavigationBar(
+fun BottomNavigationBar(
     modifier: Modifier = Modifier,
     content: @Composable RowScope.() -> Unit
 ) {
@@ -74,7 +74,7 @@ fun SsNavigationBar(
     )
 }
 
-object SsNavigationDefaults {
+object BottomNavigationDefaultsColor {
     val navigationContainerColor = Color.Transparent
 
     @Composable
