@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.salt.apps.core.data.source.local.entity.UserEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
@@ -13,7 +12,7 @@ interface UserDao {
     suspend fun insertUser(user: UserEntity)
 
     @Query("SELECT * FROM user")
-    fun getUser(): Flow<UserEntity>
+    fun getUser(): UserEntity
 
     @Query("DELETE FROM user")
     suspend fun deleteUser()
