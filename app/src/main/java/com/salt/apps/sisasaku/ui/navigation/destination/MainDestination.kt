@@ -1,4 +1,4 @@
-package com.salt.apps.sisasaku.ui.navigation
+package com.salt.apps.sisasaku.ui.navigation.destination
 
 import com.salt.apps.core.designsystem.icon.SsIcons
 import com.salt.apps.feature.R

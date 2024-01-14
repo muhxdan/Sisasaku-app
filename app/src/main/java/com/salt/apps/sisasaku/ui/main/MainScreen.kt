@@ -14,28 +14,36 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
-import com.salt.apps.core.designsystem.components.SsNavigationBar
-import com.salt.apps.core.designsystem.components.SsNavigationBarItem
-import com.salt.apps.sisasaku.ui.navigation.MainDestination
-import com.salt.apps.sisasaku.ui.navigation.SsMainNavHost
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navOptions
+import com.salt.apps.core.designsystem.components.BottomNavigationBar
+import com.salt.apps.core.designsystem.components.BottomNavigationBarItem
+import com.salt.apps.feature.analytics.navigation.navigateToAnalytics
+import com.salt.apps.feature.home.navigation.navigateToHome
+import com.salt.apps.feature.profile.navigation.navigateToProfile
+import com.salt.apps.feature.wallet.navigation.navigateToWallet
+import com.salt.apps.sisasaku.ui.navigation.MainNavHost
+import com.salt.apps.sisasaku.ui.navigation.destination.MainDestination
 
 @Composable
-fun SsApp(
-    appState: SsAppState = rememberSsAppState(),
+fun MainScreen(
+    mainNavController: NavHostController,
 ) {
+    val mainDestinations: List<MainDestination> = MainDestination.entries
+    val navController = rememberNavController()
     Scaffold(
-        containerColor = Color.Transparent,
+        containerColor = MaterialTheme.colorScheme.background,
         contentColor = MaterialTheme.colorScheme.onBackground,
         bottomBar = {
-            SsBottomBar(
-                destinations = appState.mainDestinations,
-                onNavigateToDestination = appState::navigateToTopLevelDestination,
-                currentDestination = appState.currentDestination,
+            BottomBar(
+                navController = navController,
+                destinations = mainDestinations,
             )
         }
     ) { padding ->
@@ -49,28 +57,25 @@ fun SsApp(
                     )
                 )
         ) {
-            SsMainNavHost(
-                appState = appState
-            )
+            MainNavHost(navController = navController, mainNavController = mainNavController)
         }
     }
 }
 
 @Composable
-private fun SsBottomBar(
+private fun BottomBar(
+    navController: NavHostController,
     destinations: List<MainDestination>,
-    onNavigateToDestination: (MainDestination) -> Unit,
-    currentDestination: NavDestination?,
-    modifier: Modifier = Modifier,
 ) {
-    SsNavigationBar(
-        modifier = modifier,
-    ) {
+    BottomNavigationBar {
+        val currentDestination = navController
+            .currentBackStackEntryAsState().value?.destination
+
         destinations.forEach { destination ->
             val selected = currentDestination.isTopLevelDestinationInHierarchy(destination)
-            SsNavigationBarItem(
+            BottomNavigationBarItem(
                 selected = selected,
-                onClick = { onNavigateToDestination(destination) },
+                onClick = { navigateToTopLevelDestination(navController, destination) },
                 icon = {
                     Icon(
                         painter = painterResource(id = destination.unselectedIcon),
@@ -93,3 +98,23 @@ private fun NavDestination?.isTopLevelDestinationInHierarchy(destination: MainDe
     this?.hierarchy?.any {
         it.route?.contains(destination.name, true) ?: false
     } ?: false
+
+private fun navigateToTopLevelDestination(
+    navController: NavHostController,
+    mainDestination: MainDestination
+) {
+    val topLevelNavOptions = navOptions {
+        popUpTo(navController.graph.startDestinationId) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
+    }
+
+    when (mainDestination) {
+        MainDestination.HOME -> navController.navigateToHome(topLevelNavOptions)
+        MainDestination.WALLET -> navController.navigateToWallet(topLevelNavOptions)
+        MainDestination.ANALYTICS -> navController.navigateToAnalytics(topLevelNavOptions)
+        MainDestination.PROFILE -> navController.navigateToProfile(topLevelNavOptions)
+    }
+}
