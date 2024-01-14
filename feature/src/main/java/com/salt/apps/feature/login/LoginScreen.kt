@@ -40,8 +40,8 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.salt.apps.core.data.State
+import com.salt.apps.core.designsystem.components.showToast
 import com.salt.apps.feature.R
-import com.salt.apps.feature.components.showToast
 import io.github.jan.supabase.compose.auth.composable.rememberLoginWithGoogle
 import io.github.jan.supabase.compose.auth.composeAuth
 
@@ -133,6 +133,7 @@ fun LoginScreen(
             }
         }
     }
+
     LaunchedEffect(loginState) {
         isLoading = false
         when (loginState) {
@@ -144,7 +145,7 @@ fun LoginScreen(
                 showToast(context, (loginState as State.Error).message)
             }
 
-            is State.Empty -> {}
+            is State.Initial -> {}
             is State.Loading -> {}
         }
     }
