@@ -1,6 +1,6 @@
 [versions]
 #Project Dependencies Versions
-androidGradlePlugin = "8.2.0"
+androidGradlePlugin = "8.2.1"
 jetbrainsKotlin = "1.9.21"
 
 #App Dependencies Versions

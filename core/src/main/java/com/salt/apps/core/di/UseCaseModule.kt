@@ -1,7 +1,7 @@
 package com.salt.apps.core.di
 
-import com.salt.apps.core.domain.repository.IAuthRepository
-import com.salt.apps.core.domain.usecase.AuthUseCase
+import com.salt.apps.core.domain.repository.IRepository
+import com.salt.apps.core.domain.usecase.UseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,5 +11,5 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 class UseCaseModule {
     @Provides
-    fun provideUseCase(authRepository: IAuthRepository): AuthUseCase = AuthUseCase(authRepository)
+    fun provideUseCase(authRepository: IRepository): UseCase = UseCase(authRepository)
 }

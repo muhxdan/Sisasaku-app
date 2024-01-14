@@ -6,7 +6,7 @@ import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.compose.auth.composable.NativeSignInResult
 import kotlinx.coroutines.flow.Flow
 
-interface IAuthRepository {
+interface IRepository {
     fun signInWithGoogle(
         result: NativeSignInResult,
         client: SupabaseClient
@@ -15,4 +15,7 @@ interface IAuthRepository {
     fun logout(
         client: SupabaseClient
     ): Flow<State<Unit>>
+
+    fun getProfile(
+    ): Flow<State<User>>
 }

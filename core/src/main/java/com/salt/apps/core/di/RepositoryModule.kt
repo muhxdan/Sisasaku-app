@@ -1,7 +1,7 @@
 package com.salt.apps.core.di
 
-import com.salt.apps.core.data.AuthRepository
-import com.salt.apps.core.domain.repository.IAuthRepository
+import com.salt.apps.core.data.Repository
+import com.salt.apps.core.domain.repository.IRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -11,5 +11,5 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
     @Binds
-    abstract fun provideRepository(authRepository: AuthRepository): IAuthRepository
+    abstract fun provideRepository(repository: Repository): IRepository
 }
