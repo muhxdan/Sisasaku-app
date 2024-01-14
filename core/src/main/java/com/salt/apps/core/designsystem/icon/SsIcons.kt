@@ -11,4 +11,13 @@ object SsIcons {
     val AnalyticsBorder = R.drawable.ic_analytics_border
     val Profile = R.drawable.ic_profile
     val ProfileBorder = R.drawable.ic_profile_border
+    val Email = R.drawable.ic_email
+    val Google = R.drawable.ic_google
+    val Language = R.drawable.ic_language
+    val Theme = R.drawable.ic_theme
+    val Notification = R.drawable.ic_notification
+    val Help = R.drawable.ic_help
+    val Tap = R.drawable.ic_tap
+    val Report = R.drawable.ic_report
+    val Logout = R.drawable.ic_logout
 }
