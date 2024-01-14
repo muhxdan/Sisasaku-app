@@ -6,12 +6,12 @@ import com.salt.apps.core.domain.model.User
 
 
 object DataMapper {
-    fun mapUserResponseToEntity(input: UserResponse): UserEntity =
+    fun mapUserResponseToEntity(userId: String, userResponse: UserResponse): UserEntity =
         UserEntity(
-            id = input.iss,
-            name = input.name,
-            email = input.email,
-            imageUrl = input.avatarUrl
+            id = userId,
+            name = userResponse.name,
+            email = userResponse.email,
+            imageUrl = userResponse.avatarUrl
         )
 
     fun mapUserEntityToUserModel(input: UserEntity): User =
